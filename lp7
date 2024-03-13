@@ -1,0 +1,38 @@
+import java.util.Scanner;
+import java.util.*;
+public class leaky {
+public static int bucketsize=512;
+public static void bktinput(int pktsize, int op)throws Interrupted Exception
+{
+if(pktsize > bucketsize)
+System.out.println("\n packet discarded");
+else
+{
+while(pktsize>op)
+{
+Thread.sleep(100);
+System.out.println("\n bytes outputted"+ op);
+pktsize = pktsize - op;
+}
+if(pktsize > 0)
+System.out.println("\n last"+pktsize+" bytes sent");
+System.out.println("\n bucket outputted scccessful\n");
+}
+}
+public static void main(String[] args)throws InterruptedException {
+// TODO Auto-generated method stub
+int i, op, pktsize;
+Scanner sc = new Scanner(System.in);
+Random r=new Random();
+System.out.println("enter output rate: \n");
+op=sc.nextInt();
+for(i=0;i<5;i++)
+{
+Thread.sleep(100);
+pktsize = Math.abs(r.nextInt())%1000;
+System.out.println("\n pktno:"+i+"\t pktsize:"+ pktsize);
+bktinput(pktsize, op);
+}
+sc.close();
+}
+}
