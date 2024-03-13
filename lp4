@@ -1,15 +1,14 @@
-#create Simulator object
+
 set ns [new Simulator]
 
-#open trace file
 set nt [open Lab4.tr w]
 $ns trace-all $nt
 
-#open namtrace file
+
 set nf [open Lab4.nam w]
 $ns namtrace-all $nf
 
-#create nodes
+
 set n0 [$ns node] 
 set n1 [$ns node] 
 set n2 [$ns node] 
@@ -17,7 +16,7 @@ set n3 [$ns node]
 set n4 [$ns node] 
 set n5 [$ns node]
 
-#label nodes
+
 
 $n0 label "ping0"
 $n1 label "ping1"
@@ -26,14 +25,12 @@ $n3 label "ping3"
 $n4 label "ping4"
 $n5 label "router"
 
-#create links, specify the type, nodes, bandwidth, delay and ARQ algorithm for it
 $ns duplex-link $n0 $n5 1Mb 10ms DropTail
 $ns duplex-link $n1 $n5 1Mb 10ms DropTail
 $ns duplex-link $n2 $n5 1Mb 10ms DropTail
 $ns duplex-link $n3 $n5 1Mb 10ms DropTail
 $ns duplex-link $n4 $n5 1Mb 10ms DropTail
 
-#set queue length
 $ns queue-limit $n0 $n5 5
 $ns queue-limit $n1 $n5 5
 $ns queue-limit $n2 $n5 2
@@ -43,13 +40,14 @@ $ns color 2 Red
 $ns color 3 Blue
 $ns color 4 Green
 $ns color 5 Yellow
-#define ‘recv’ function for class Agent/Ping
+
+
 Agent/Ping instproc recv {from rtt} {
 $self instvar node_
 puts "node [$node_ id] received ping answer from $from with round-trip time $rtt ms"
 }
 
-#create ping agent and attach them to node 
+
 set p0 [new Agent/Ping]
 $ns attach-agent $n0 $p0
 $p0 set class_ 1
@@ -70,7 +68,7 @@ set p4 [new Agent/Ping]
 $ns attach-agent $n4 $p4
 $p4 set class_ 5
 
-#connect 2 agents
+
 $ns connect $p2 $p4
 $ns connect $p3 $p4
 
@@ -96,7 +94,7 @@ $ns at 0.1 "sendPingPacket"
 $ns at 2.0 "finish"
 $ns run
 
-Awk file
+
 
 BEGIN{
 count=0;
